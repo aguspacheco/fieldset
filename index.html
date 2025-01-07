@@ -1,251 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script defer src="/fieldset/simulador/main.js"></script>
-</head>
-<body>
-    <section class="mensura">
-        <div class="calculos" id="calculosMensura">
-            <fieldset id="contenedorMensura">
-                <legend><b>Simulador Mensura</b></legend>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="/simulador/main.js"></script>
+  </head>
+  <section>
+    <form id="formularioMensura">
+      Cantidad parcela origen *<input id="origen" min="0" required="" type="number" /> Cantidad
+      Parcela Resultante/s *<input id="resultante" min="0" required="" type="number" /> Cantidad
+      Unidades funcionales y/o Unidades 𝗖𝗼𝗺𝗽𝗹𝗲𝗺𝗲𝗻𝘁𝗮𝗿𝗶𝗮𝘀<input
+        id="ufuncional"
+        min="0"
+        required=""
+        type="number"
+      />
+      𝗗𝗲𝗰𝗹𝗮𝗿𝗮𝗰𝗶𝗼́𝗻𝗲𝘀 juradas individual 𝗳𝗼𝗿𝗺𝗮𝘁𝗼 papel<input id="ddjjMensura" min="0" type="number" />
+      𝗧𝗿𝗮́𝗺𝗶𝘁𝗲 preferencial<input id="preferencial" type="checkbox" />
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Cantidad</th>
+          <th>Valor</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="resultadosMensura"></tbody>
+    </table>
+    <label id="abonarMensura">Importe:</label>
 
-                <form class="formulario" id="formularioMensura">
-                    <div class="elemento">
-                        <label for="origen">Parcela Origen (*)</label>
-                        <input type="number" id="origen" min="0" required>
-                    </div>
+    <button id="calcularMensura-btn" type="button">Calcular</button>
+    <button id="limpiarMensura-btn" type="button">Limpiar</button>
+    <button id="recalcularMensura-btn" type="button">Volver</button>
+  </section>
 
-                    <div class="elemento">
-                        <label for="resultante">Parcela Resultante (*)</label>
-                        <input type="number" id="resultante" min="0" required>
-                    </div>
+  <section>
+    <form id="formularioValuaciones">
+      𝗗𝗲𝗰𝗹𝗮𝗿𝗮𝗰𝗶𝗼́𝗻𝗲𝘀 juradas individual 𝗳𝗼𝗿𝗺𝗮𝘁𝗼 papel<input
+        id="ddjjValuacion"
+        min="0"
+        type="number"
+      />
+      <label for="valorFiscal"
+        >𝗖𝗲𝗿𝘁𝗳𝗶𝗰𝗮𝗰𝗶𝗼́𝗻𝗲𝘀 de valores fiscales de 𝗶𝗻𝗺𝘂𝗲𝗯𝗹𝗲𝘀<input
+          id="valorFiscal"
+          min="0"
+          type="number"
+        />
+      </label>
+      <label for="valuacionFiscal"
+        >Pedidos de 𝗿𝗲𝗰𝗼𝗻𝘀𝗶𝗱𝗲𝗿𝗮𝗰𝗶𝗼́𝗻 de 𝘃𝗮𝗹𝘂𝗮𝗰𝗶𝗼́𝗻 fiscal<input
+          id="valuacionFiscal"
+          min="0"
+          type="number"
+        />
+      </label>
+      <label for="ganadera"
+        >Pedido de 𝗿𝗲𝗰𝗼𝗻𝘀𝗶𝗱𝗲𝗿𝗮𝗰𝗶𝗼́𝗻 de receptividad ganadera<input
+          id="ganadera"
+          min="0"
+          type="number"
+        />
+      </label>
+      Pedido de reconsideración VIR<input id="vir" min="0" type="number" /> 𝗧𝗿𝗮́𝗺𝗶𝘁𝗲
+      preferencial<input id="preferencialValuacion" type="checkbox" />
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Cantidad</th>
+          <th>Valor</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="resultadosValuaciones"></tbody>
+    </table>
+    <label id="abonarValuacion">Importe:</label>
 
-                    <div class="elemento">
-                        <label for="uFuncional">Unidad/es Funcional/es y/o Unidades Complementarias </label>
-                        <input type="number" id="uFuncional" min="0" required>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="ddjj">Declaracion/es Jurada/s (DDJJ)</label>
-                        <input type="number" id="ddjj" min="0" required>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="cementerio">Cementerios Privados</label>
-                        <input type="number" id="cementerio" min="0" required>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="estadoParcelario">Verificación Estado Parcelario</label>
-                        <input type="number" id="estadoParcelario" min="0" required>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="estudio">
-                            Solicitud Estudio De Titulos y Antecedente Dominal
-                        </label>
-                        <input type="number" id="estudio" min="0" required>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="preferencial">Preferencial</label>
-                        <input type="checkbox" id="preferencialMensura">
-                    </div>
-                </form>
-            </fieldset>
-
-            <div class="botonesMensura">
-                <button class="calcular-btn btn" id="calcular-btn" type="button">
-                    Calcular
-                </button>
-
-                <button class="borrar-btn btn" id="borrar-btn" type="button">
-                    Limpiar
-                </button>
-            </div>
-
-            <div class="popUp" id="popUpMensura">
-                <div class="contenidoVentana">
-                    <table id="tablaMensura">
-                        <button class="cerrar" id="cerrar" type="button">❌ CERRAR</button> 
-                        <caption>
-                            Tabla Mensura
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th>Datos Ingresados</th>
-                                <th>Cantidad</th>
-                                <th>Tarifa</th>
-                                <th>Monto</th>
-                            </tr>
-                        </thead>
-                        <tbody class="resultados" id="resultadosMensura"></tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3">Pago Total:</td>
-                                <td id="abonarMensura"></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="valuaciones">
-        <div class="calculos" id="calculosValuaciones">
-            <fieldset id="contenedorValuaciones">
-                <legend><b>Simulador Valuaciones</b></legend>
-                <form class="formulario" id="formularioValuaciones">
-                    <div class="elemento">
-                        <label for="declaracionesJuradas">Declaraciones Juradas (Fomato Papel)</label>
-                        <input type="number" id="declaracionesJuradas" min="0" required/>
-                    </div>
-                
-                    <div class="elemento">
-                        <label for="valoresFiscales">Certificación Valores Fiscales Inmuebles </label>
-                        <input type="number" id="valoresFiscales" min="0" required/>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="valuacionFiscal">Pedido de Reconsideración Valuación Fiscal</label>
-                        <input type="number" id="valuacionFiscal" min="0" required/>
-                    </div>
-                    
-                    <div class="elemento">
-                        <label for="ganadera">Pedido Receptividad Ganadera</label>
-                        <input type="number" id="ganadera" min="0" required/>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="preferencialValuaciones">Preferencial</label>
-                        <input type="checkbox" id="preferencialValuaciones">
-                    </div>
-                </form>
-            </fieldset>
-
-            <div class="botonesValuaciones">
-                <button
-                class="calcular-btn btn"
-                id="calcular-btnValuaciones"
-                type="button">
-                Calcular
-                </button>
-
-                <button
-                class="borrar-btn btn"
-                id="borrar-btnValuaciones"
-                type="button">
-                Limpiar
-                </button>
-            </div>
-        </div>
-
-        <div class="popUp" id="popUpValuaciones">
-            <div class="contenidoVentana">
-                <button
-                class="cerrarValuaciones"
-                id="cerrarValuaciones"
-                type="button">
-                ❌CERRAR
-            </button>
-                <table id="tablaValuaciones">
-                <caption>Tabla Valuaciones</caption>
-                    <thead>
-                        <tr>
-                            <th>Datos Ingresados</th>
-                            <th>Cantidad</th>
-                            <th>Tarifa</th>
-                            <th>Monto</th>
-                        </tr>
-                    </thead>
-                    <tbody class="resultados" id="resultadosValuaciones"></tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3">Pago Total:</td>
-                            <td id="abonarValuaciones"></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <section class="certificaciones">
-        <div class="calculos" id="calculosCertificaciones">
-            <fieldset id="contenedorCertificaciones">
-                <legend><b>Simulador Certificaciones</b></legend>
-                <form class="formulario" id="formularioCertificaciones">
-                    <div class="elemento">
-                        <label for="urbana">Parcela Urbana</label>
-                        <input type="number" id="urbana" min="0" required>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="subRural">Sub Rural</label>
-                        <input type="number" id="subRural" min="0" required>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="rural">Rural</label>
-                        <input type="number" id="rural" min="0" required>
-                    </div>
-
-                    <div class="elemento">
-                        <label for="preferencial">Preferencial</label>
-                        <input type="checkbox" id="preferencialCertificaciones" min="0" required>
-                    </div>
-                </form>
-            </fieldset>
-
-            <div class="botonesCertificaciones">
-                <button 
-                class="calcular btn btn"
-                id="calcular-btnCertificaciones"
-                type="button"
-                > Calcular 
-                </button>
-
-                <button
-                class="borrar-btn btn"
-                id="borrar-btnCertificaciones"
-                type="button">
-                Limpiar
-                </button>
-            </div>
-        </div>
-
-        <div class="popUp" id="popUpCertificaciones">
-            <div class="contendioVentana">
-                <button
-                class="cerrarCertificaciones"
-                id="cerrarCertificaciones"
-                type="button">
-                ❌CERRAR
-                </button>
-                <table id="tablaCertificaciones">
-                    <caption>Tabla Certificaciones</caption>
-                    <thead>
-                        <tr>
-                            <th>Datos Ingresados</th>
-                            <th>Cantidad</th>
-                            <th>Tarifia</th>
-                            <th>Monto</th>
-                        </tr>
-                    </thead>
-                    <tbody class="resultados" id="resultadosCertificaciones"></tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3">Pago Total:</td>
-                            <td id="abonarCertificaciones"></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </section>
-</body>
+    <button id="calcularValuacion-btn" type="button">Calcular</button>
+    <button id="limpiarValuacion-btn" type="button">Limpiar</button>
+    <button id="recalcularValuacion-btn" type="button">Volver</button>
+  </section>
 </html>

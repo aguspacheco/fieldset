@@ -1,152 +1,78 @@
-body {
-    color: #0000088e;
-    overflow-y: scroll;
-    position: absolute;
-    display: flex; 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px; /* Espacio entre los campos */
+  width: 100%; /* Ancho completo */
+  max-width: 500px; /* Ancho máximo del formulario */
+  margin: 0 auto; /* Centrar en la página */
+  padding: 20px; /* Espaciado interno */
+  box-shadow: 0 4px 8px #0000001a; /* Sombra ligera */
+  border-radius: 10px; /* Bordes redondeados */
+  background-color: #f9f9f9; /* Fondo claro */
 }
 
-.formularioMensura, .formularioValuaciones, .formularioCertificaciones {
-    display: flex;
-    padding: 5px;
-    border-radius: 5px;
-    margin-bottom: 5px;
+label {
+  display: none;
+  font-size: 1rem; /* Tamaño del texto */
+  font-weight: bold;
+  color: #333;
 }
 
-caption {
-    background: linear-gradient(to bottom, #3d5a80, #98c1d9);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.elemento label {
-    position: relative;
-    width: 150px;
-    font-family: fantasy;
-    justify-content: center;
-}
-
-.elemento input[type="number"] {
-    margin-bottom: 10px;
-    border-radius: 3px;
-    font-size: 15px;
-    display: flex;
-    justify-content: center;
-    width: 50%;
-    background: none;
-    border: none;
-    border-bottom: 1px solid #168aad;
-    outline: none;
+input[type="number"],
+input[type="checkbox"],
+button {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 300px; /* Ancho máximo del campo */
+  padding: 10px; /* Espaciado interno */
+  font-size: 1rem;
+  border: 1px solid #ddd; /* Bordes */
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna */
 }
 
 input[type="checkbox"] {
-    width: 10px;
-    justify-content: center;
-    cursor: pointer;
+  width: auto; /* Ajusta el tamaño para checkboxes */
 }
 
-fieldset {
-    border: 1px solid #70d6ff;
-    border-radius: 15px;
-    width: 50%;
-    padding: 5%;
-    margin-top: 20px;
-    box-shadow: 0 0 20px 2px #a9def9;
+button {
+  width: auto; /* Botones ajustan tamaño según contenido */
+  background-color: #ff682c;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-legend {
-    border: 1px solid #70d6ff;
-    text-align: center;
-    background-color: #1e6091;
-    border-radius: 8px;
-    color: #fffcf2;
+button:hover {
+  background-color: #d95f28;
+}
+
+.table-container {
+  margin-top: 20px; /* Espaciado del formulario */
 }
 
 table {
-    border-collapse: collapse;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    box-shadow: 0 0 50px 10px #0000004d;
-    width: 110%;
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 thead {
-    background-color: #e0fbfc;
-    border-bottom: solid 4px;
-    color: #2b3d4f;
-    text-align: center;
+  background-color: #f1f1f1;
 }
 
-tr:nth-child(even) {
-    background-color: #a59898e7;
-}
-  
 tr:hover {
-    background-color: #4ebacf;
+  background-color: #ffe0cc;
 }
 
-td {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;
-    text-align: center;
+td,
+th {
+  display: none;
+  padding: 10px;
+  text-align: left;
 }
-
-.btn {
-    padding: 1rem 1.5rem;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 1s ease;
-    background-color: transparent;
-    border: 2px solid #33b6a4;
-    border-radius: 0.5rem;
-    color: #fffcf2;
-    margin-bottom: 1px;
-}
-
-.btn:hover {
-    transform: translate(0, -10px);
-    box-shadow: 0.5rem, 0.5rem, 1rem #fff, -0.5 1rem #ccc;
-}
-
-button :active {
-    box-shadow: inset 0.2rem 0.2rem 1rem #f32525, inset -0.2rem 1rem #999999;
-}
-
-.botonesValuaciones,
-.botonesMensura,
-.botonesCertificaciones {
-  margin-top: 10px;
-  margin-left: 15px;
-}
-
-.calcular-btn, .borrar-btn {
-    background-color: #0f4d75;
-}
-
-/* .borrar-btn {
-    background-color: #d00000;
-} */
-
-.cerrar,
-.cerrarValuaciones
-.cerrarCertificaciones {
-  background-color: #fcca46;
-  color: #252422;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.popUp {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.contenidoVentana {
-    padding: 20px;
-    border-radius: 5px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-

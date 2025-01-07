@@ -1,4 +1,4 @@
-const multiplicador = 5;
+const multiplicador = 7.5;
 const porc_preferencial = 800;
 
 /*----- Modulos -----*/
@@ -24,30 +24,15 @@ const m_ganadera = 600 * multiplicador;
 // 3.6) Por pedido de reconsideracion de VIR -> M840
 const m_vir = 840 * multiplicador;
 
-// 2.1.1) Certificado catastrales por cada parcela urbana
-const m_urbana = 2400 * multiplicador;
-// 2.1.2) Certificado catastrales por cada parcela sub-rural
-const m_subRural = 3000 * multiplicador;
-// 2.1.3) Certificado catastrales por cada parcela rural
-const m_rural = 4800 * multiplicador;
-
 /** ----- Elementos ----- */
 
 const formularioValuaciones = document.getElementById("formularioValuaciones");
 const resultadosValuaciones = document.getElementById("resultadosValuaciones");
-const resultadosValuaciones_tabla = document.getElementById(
-  "resultadosValuaciones-tabla"
-);
+const resultadosValuaciones_tabla = document.getElementById("resultadosValuaciones-tabla");
 
 const formularioMensura = document.getElementById("formularioMensura");
 const resultadosMensura = document.getElementById("resultadosMensura");
-const resultadosMensura_tabla = document.getElementById(
-  "resultadosMensura-tabla"
-);
-
-const formularioCertificaciones = document.getElementById("formularioCertificaciones");
-const resultadosCertificaciones = document.getElementById("resultadosCertificaciones");
-const resultadosCertificaciones_tabla = document.getElementById("resultadosCertificaciones-tabla");
+const resultadosMensura_tabla = document.getElementById("resultadosMensura-tabla");
 
 /** ----- FUNCIONES GENERALES ----- */
 
@@ -144,7 +129,6 @@ function obtenerValoresEntrada() {
   const parcelas = origen + resultante;
 
   return { origen, resultante, ddjj, funcional, preferencial, parcelas };
-
 }
 
 /**
@@ -173,28 +157,15 @@ function totalPreferencial(parcelas, ddjj, funcional) {
  * @param {object} valoresEntrada - Objeto con los valores de entrada del formulario.
  */
 function crearTablaResultados(valoresEntrada) {
-  const { origen, resultante, ddjj, funcional, preferencial, parcelas } =
-    valoresEntrada;
+  const { origen, resultante, ddjj, funcional, preferencial, parcelas } = valoresEntrada;
   const valor_modulo_parcelas = parcelasValorModular(parcelas);
 
-  agregarFila(
-    "Parcelas Origen",
-    origen,
-    valor_modulo_parcelas,
-    resultadosMensura
-  );
-  agregarFila(
-    "Parcelas Resultante",
-    resultante,
-    valor_modulo_parcelas,
-    resultadosMensura
-  );
+  agregarFila("Parcelas Origen", origen, valor_modulo_parcelas, resultadosMensura);
+  agregarFila("Parcelas Resultante", resultante, valor_modulo_parcelas, resultadosMensura);
   agregarFila("Unidad Funcional", funcional, m_ufuncional, resultadosMensura);
   agregarFila("Declaracion Jurada", ddjj, m_ddjj, resultadosMensura);
 
-  const montoPreferencial = preferencial
-    ? totalPreferencial(parcelas, ddjj, funcional)
-    : 0;
+  const montoPreferencial = preferencial ? totalPreferencial(parcelas, ddjj, funcional) : 0;
 
   agregarFilaPreferencial(preferencial, montoPreferencial, resultadosMensura);
 }
@@ -211,23 +182,22 @@ const limpiarMensuraBtn = document.getElementById("limpiarMensura-btn");
 const recalcularMensuraBtn = document.getElementById("recalcularMensura-btn");
 
 calcularMensuraBtn.addEventListener("click", () => {
+  const valoresEntrada = obtenerValoresEntrada();
 
-const valoresEntrada = obtenerValoresEntrada();
+  if (valoresEntrada === null) {
+    return;
+  }
 
-    if (valoresEntrada === null) {
-        return;
-    }   
-  
-// Verificar si hay algún valor menor a cero
-    if (valoresEntrada === null) {
-      // Si hay un valor menor a cero, no continuar
-      return;
-    }
+  // Verificar si hay algún valor menor a cero
+  if (valoresEntrada === null) {
+    // Si hay un valor menor a cero, no continuar
+    return;
+  }
 
   formularioMensura.style.display = "none";
   limpiarMensuraBtn.style.display = "none";
   calcularMensuraBtn.style.display = "none";
-  resultadosMensura_tabla.style.display = "block";
+  resultadosMensura.style.display = "block";
   recalcularMensuraBtn.style.display = "block";
   mostrarTotalMensura();
 });
@@ -244,7 +214,7 @@ limpiarMensuraBtn.addEventListener("click", () => {
 
 recalcularMensuraBtn.addEventListener("click", () => {
   resultadosMensura.innerHTML = "";
-  resultadosMensura_tabla.style.display = "none";
+  resultadosMensura.style.display = "none";
   recalcularMensuraBtn.style.display = "none";
   formularioMensura.style.display = "block";
   limpiarMensuraBtn.style.display = "block";
@@ -259,42 +229,26 @@ recalcularMensuraBtn.addEventListener("click", () => {
  */
 function obtenerValoresEntradaValuaciones() {
   const ddjj = parseInt(document.getElementById("ddjjValuacion").value) || 0;
-  const valorFiscal =
-    parseInt(document.getElementById("valorFiscal").value) || 0;
-  const valuacionFiscal =
-    parseInt(document.getElementById("valuacionFiscal").value) || 0;
+  const valorFiscal = parseInt(document.getElementById("valorFiscal").value) || 0;
+  const valuacionFiscal = parseInt(document.getElementById("valuacionFiscal").value) || 0;
   const ganadera = parseInt(document.getElementById("ganadera").value) || 0;
   const vir = parseInt(document.getElementById("vir").value) || 0;
   const preferencial = document.getElementById("preferencialValuacion").checked;
-  
-  if (ddjj < 0 || valorFiscal < 0 || valuacionFiscal < 0 || ganadera < 0 || vir < 0 ) {
+
+  if (ddjj < 0 || valorFiscal < 0 || valuacionFiscal < 0 || ganadera < 0 || vir < 0) {
     alert("Ingrese valores no negativos.");
     return null;
   }
-  
-  if (
-    ddjj === 0 &&
-    valorFiscal === 0 &&
-    valuacionFiscal === 0 &&
-    ganadera === 0 &&
-    vir === 0
-  ) {
-    alert(
-      "Ingrese al menos un valor antes de calcular."
-    );
+
+  if (ddjj === 0 && valorFiscal === 0 && valuacionFiscal === 0 && ganadera === 0 && vir === 0) {
+    alert("Ingrese al menos un valor antes de calcular.");
     return null;
   }
 
   return { ddjj, valorFiscal, valuacionFiscal, ganadera, vir, preferencial };
 }
 
-function preferencialValuaciones(
-  ddjj,
-  valorFiscal,
-  valuacionFiscal,
-  ganadera,
-  vir
-) {
+function preferencialValuaciones(ddjj, valorFiscal, valuacionFiscal, ganadera, vir) {
   let total =
     ddjj * m_ddjj +
     valorFiscal * m_valorFiscal +
@@ -306,8 +260,7 @@ function preferencialValuaciones(
 }
 
 function calcularValuacion(valoresEntrada) {
-  const { ddjj, valorFiscal, valuacionFiscal, ganadera, vir, preferencial } =
-    valoresEntrada;
+  const { ddjj, valorFiscal, valuacionFiscal, ganadera, vir, preferencial } = valoresEntrada;
 
   let total =
     m_ddjj * ddjj +
@@ -328,22 +281,11 @@ function calcularValuacion(valoresEntrada) {
  * @param {object} valoresEntrada - Objeto con los valores de entrada del formulario.
  */
 function crearTablaResultadosValuaciones(valoresEntrada) {
-  const { ddjj, valorFiscal, valuacionFiscal, ganadera, vir, preferencial } =
-    valoresEntrada;
+  const { ddjj, valorFiscal, valuacionFiscal, ganadera, vir, preferencial } = valoresEntrada;
 
   agregarFila("Declaracion Jurada", ddjj, m_ddjj, resultadosValuaciones);
-  agregarFila(
-    "Valor Fiscal",
-    valorFiscal,
-    m_valorFiscal,
-    resultadosValuaciones
-  );
-  agregarFila(
-    "Valuacion Fiscal",
-    valuacionFiscal,
-    m_valuacionFiscal,
-    resultadosValuaciones
-  );
+  agregarFila("Valor Fiscal", valorFiscal, m_valorFiscal, resultadosValuaciones);
+  agregarFila("Valuacion Fiscal", valuacionFiscal, m_valuacionFiscal, resultadosValuaciones);
   agregarFila("Ganadera", ganadera, m_ganadera, resultadosValuaciones);
   agregarFila("VIR", vir, m_vir, resultadosValuaciones);
 
@@ -351,11 +293,7 @@ function crearTablaResultadosValuaciones(valoresEntrada) {
     ? preferencialValuaciones(ddjj, valorFiscal, valuacionFiscal, ganadera, vir)
     : 0;
 
-  agregarFilaPreferencial(
-    preferencial,
-    montoPreferencial,
-    resultadosValuaciones
-  );
+  agregarFilaPreferencial(preferencial, montoPreferencial, resultadosValuaciones);
 }
 
 function mostrarTotalValuaciones() {
@@ -367,27 +305,25 @@ function mostrarTotalValuaciones() {
 
 const calcularValuacionBtn = document.getElementById("calcularValuacion-btn");
 const limpiarValuacionBtn = document.getElementById("limpiarValuacion-btn");
-const recalcularValuacionBtn = document.getElementById(
-  "recalcularValuacion-btn"
-);
+const recalcularValuacionBtn = document.getElementById("recalcularValuacion-btn");
 
 calcularValuacionBtn.addEventListener("click", () => {
-    const valoresEntradaValuaciones = obtenerValoresEntradaValuaciones();
+  const valoresEntradaValuaciones = obtenerValoresEntradaValuaciones();
 
-    if (valoresEntradaValuaciones === null) {
-      return;
-    }  
+  if (valoresEntradaValuaciones === null) {
+    return;
+  }
   formularioValuaciones.style.display = "none";
   calcularValuacionBtn.style.display = "none";
   limpiarValuacionBtn.style.display = "none";
-  resultadosValuaciones_tabla.style.display = "block";
+  resultadosValuaciones.style.display = "block";
   recalcularValuacionBtn.style.display = "block";
   mostrarTotalValuaciones();
 });
 
 recalcularValuacionBtn.addEventListener("click", () => {
   resultadosValuaciones.innerHTML = "";
-  resultadosValuaciones_tabla.style.display = "none";
+  resultadosValuaciones.style.display = "none";
   recalcularValuacionBtn.style.display = "none";
   formularioValuaciones.style.display = "block";
   calcularValuacionBtn.style.display = "block";
@@ -395,118 +331,11 @@ recalcularValuacionBtn.addEventListener("click", () => {
 });
 
 limpiarValuacionBtn.addEventListener("click", () => {
-  const elementos = [
-    "ddjjValuacion",
-    "valorFiscal",
-    "valuacionFiscal",
-    "ganadera",
-    "vir",
-  ];
+  const elementos = ["ddjjValuacion", "valorFiscal", "valuacionFiscal", "ganadera", "vir"];
 
   elementos.forEach((elemento) => {
     document.getElementById(elemento).value = "";
   });
 
   document.getElementById("preferencialValuacion").checked = false;
-});
-
-/* ---CERTIFICACIONES--- */
-
-function obtenerValoresEntradaCertificaciones() {
-  const urbana = parseInt(document.getElementById("urbana").value) || 0; 
-  const subRural = parseInt(document.getElementById("subRural").value) || 0;
-  const rural = parseInt(document.getElementById("rural").value) || 0; 
-  const preferencial = document.getElementById("preferencialCertificaciones").checked;
-  
-  if (urbana < 0 || subRural < 0 || rural < 0 ) {
-    alert("Los campos númericos no admiten números negativos. Por favor ingrese un valor valido.");
-    return null;
-  }
-
-  if (
-    urbana === 0 && subRural === 0 && rural === 0
-  ){
-    alert("Por favor ingrese al menos un valor antes de calcular");
-    return null;  
-  }
-
-  return { urbana,subRural, rural, preferencial};
-}
-function preferencialCertificaciones(
-  urbana,subRural,rural
-) {
-  let total =
-    urbana * m_urbana +
-    subRural * m_subRural +
-    rural * m_rural;
-
-  return (total * porc_preferencial) / 100;
-}
-
-function calcularCertificaciones(valoresEntrada) {
-  const { urbana, rural, subRural,preferencial } = valoresEntrada;
-
-  let total = m_urbana * urbana + m_subRural * subRural + m_rural * rural;  
-
-  if (preferencial) total *= 1 + porc_preferencial / 100; 
-
-  return total;
-}
-
-function crearTablaResultadosCertificaciones(valoresEntrada) {
-  const {urbana, subRural, rural, preferencial } = valoresEntrada;
-
-  agregarFila("Urbana", urbana, m_urbana, resultadosCertificaciones);
-  agregarFila("SubRural", subRural, m_subRural, resultadosCertificaciones);
-  agregarFila("Rural", rural, m_rural, resultadosCertificaciones);
-
-  const montoPreferencial = preferencial ? preferencialCertificaciones(urbana, subRural, rural) : 0;
-
-  agregarFilaPreferencial(preferencial, montoPreferencial, resultadosCertificaciones);
-}
-
-function mostrarTotalCertificaciones() {
-  const valoresEntrada = obtenerValoresEntradaCertificaciones();
-  const total = calcularCertificaciones(valoresEntrada);
-  crearTablaResultadosCertificaciones(valoresEntrada);  
-  visualizarTotal(total, "abonarCertificaciones");
-} 
-
-const calcularCertificacionesBtn = document.getElementById("calcularCertificaciones-btn");
-const limpiarCertificacionesBtn = document.getElementById("limpiarCertificaciones-btn");
-const recalcularCertificacionesBtn = document.getElementById("recalcularCertificaciones-btn");
-
-calcularCertificacionesBtn.addEventListener("click", () => {
-  const valoresEntradaCertificaciones = obtenerValoresEntradaCertificaciones();
-
-  if (valoresEntradaCertificaciones === null) {
-    return;
-  }
-
-  formularioCertificaciones.style.display = "none";
-  calcularCertificacionesBtn.style.display = "none";
-  limpiarCertificacionesBtn.style.display = "none";  
-  resultadosCertificaciones_tabla.style.display = "block";
-  recalcularCertificacionesBtn.style.display = "block";
-  mostrarTotalCertificaciones();
-});
-
-recalcularCertificacionesBtn.addEventListener("click", () => {
-  resultadosCertificaciones.innerHTML = "";
-  resultadosCertificaciones_tabla.style.display = "none";
-  recalcularCertificacionesBtn.style.display = "none";
-  formularioCertificaciones.style.display = "block";
-  calcularCertificacionesBtn.style.display = "block";
-  limpiarCertificacionesBtn.style.display = "block";
-});
-
-limpiarCertificacionesBtn.addEventListener("click", () => {
-  const elementos = [
-    "urbana", "subRural", "rural", 
-  ];
-
-  elementos.forEach((elemento) => {
-    document.getElementById(elemento).value = "";
-  });
-  document.getElementById("preferencialCertificaciones").checked = false;
 });
